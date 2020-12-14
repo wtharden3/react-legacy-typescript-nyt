@@ -1,6 +1,24 @@
 const NytResults = (props: any) => {
   return (
     <div>
+      
+      <div>
+        {props.pageNumber === 0 ? null : (
+          <button
+            style={{ padding: '5px 20px' }}
+            onClick={e => props.changePage(e, 'down')}
+          >
+            See Previous 10 articles
+          </button>
+        )}
+        <button
+          style={{ padding: '5px 20px' }}
+          onClick={e => props.changePage(e, 'up')}
+        >
+          See Next 10 articles
+        </button>
+      </div>
+      <br />
       {props.results.map((result: any) => {
         return (
           <div key={result._id}>
@@ -87,16 +105,17 @@ const NytResults = (props: any) => {
             style={{ padding: '5px 20px' }}
             onClick={e => props.changePage(e, 'down')}
           >
-            Previous 10
+            See Previous 10 articles
           </button>
         )}
         <button
           style={{ padding: '5px 20px' }}
           onClick={e => props.changePage(e, 'up')}
         >
-          Next 10
+          See Next 10 articles
         </button>
       </div>
+
     </div>
   );
 };
