@@ -12,6 +12,7 @@ type NytState = {
   results: [];
 };
 
+//can take props as an object
 class Nyt extends Component<{}, NytState> {
   constructor(props: any) {
     super(props);

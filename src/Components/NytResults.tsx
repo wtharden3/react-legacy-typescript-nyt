@@ -46,7 +46,7 @@ const NytResults = (props: any) => {
             {result.multimedia.length > 1 ? (
               <img
                 alt={result.headline.main}
-                src={`http://www.nytimes.com/${result.multimedia[1].url}`}
+                src={`http://www.nytimes.com/${result.multimedia[0].url}`}
                 style={{ width: '80%', height: 'auto', maxWidth: '800px' }}
               />
             ) : (
