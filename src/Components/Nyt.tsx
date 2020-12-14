@@ -6,13 +6,13 @@ const key = 'xqFEyYJzzEKlWX48rMAyem8GtPYS43Wg';
 
 type NytState = {
   search: string;
-  startDate: string | number;
-  endDate: string | number;
+  startDate: string;
+  endDate: string;
   pageNumber: number;
   results: [];
 };
 
-class NytApp extends Component<{}, NytState> {
+class Nyt extends Component<{}, NytState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -23,61 +23,41 @@ class NytApp extends Component<{}, NytState> {
       results: [],
     };
   }
+
   fetchResults = () => {
     let url = `${baseURL}?api-key=${key}&page=${this.state.pageNumber}&q=${this.state.search}`;
     url = this.state.startDate
       ? url + `&begin_date=${this.state.startDate}`
       : url;
-
     url = this.state.endDate ? url + `&end_date=${this.state.endDate}` : url;
 
     fetch(url)
       .then(res => res.json())
-      .then(data => {
-        if (data.response) {
-          this.setState({ results: data.response.docs });
-        }
-      });
+      .then(data => this.setState({ results: data.response.docs }))
+      .catch(err => console.log(err));
   };
 
-  handleSubmit = (e: any) => {
-    //I added
-    this.setState({ pageNumber: 0 });
-    //I added
+   handleSubmit = (e: any) => {
+   this.setState({pageNumber: 0});
+  
     e.preventDefault();
-    this.setState({
-      results: [],
-    });
     this.fetchResults();
-  };
+  }
 
-  nextPageNumber = (e: any) => {
-    e.preventDefault();
-    this.setState(
-      {
-        pageNumber: this.state.pageNumber + 1,
-      },
-      () => {
+  //Pagination
+   changePageNumber = (event: any, direction: string) => {
+    event.preventDefault();
+    if(direction === 'down'){
+      if(this.state.pageNumber > 0){
+        this.setState({pageNumber: this.state.pageNumber - 1});
         this.fetchResults();
       }
-    );
-  };
-
-  previousPageNumber = (e: any) => {
-    e.preventDefault();
-    if (this.state.pageNumber > 0) {
-      this.setState(
-        {
-          pageNumber: this.state.pageNumber - 1,
-        },
-        () => {
-          this.fetchResults();
-        }
-      );
-    } else {
-      return;
     }
-  };
+    if(direction === 'up'){
+      this.setState({pageNumber: this.state.pageNumber + 1});
+      this.fetchResults();
+    }
+  }
 
   render() {
     return (
@@ -110,17 +90,15 @@ class NytApp extends Component<{}, NytState> {
             <br />
             <button className="submit">Submit Search</button>
           </form>
-          <button onClick={e => this.previousPageNumber(e)}>
-            Previous Page
-          </button>
-          <button onClick={e => this.nextPageNumber(e)}>Next Page</button>
           <br />
           <br />
-          <NytResults results={this.state.results} />
+          {
+            this.state.results.length > 0 ? <NytResults pageNumber={this.state.pageNumber} results={this.state.results} changePage={this.changePageNumber}/> : null
+          }
         </div>
       </div>
     );
   }
 }
 
-export default NytApp;
+export default Nyt;

@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import NytApp from './Components/Nyt';
+import Nyt from './Components/Nyt';
 
 function App() {
   return (
     <div className="App">
-      <NytApp />
+      <Nyt />
     </div>
   );
 }
