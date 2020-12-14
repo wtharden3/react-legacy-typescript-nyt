@@ -62,9 +62,12 @@ class Nyt extends Component<{}, NytState> {
 
   render() {
     return (
-      <div className="main">
-        <div className="mainDiv">
-          <form onSubmit={e => this.handleSubmit(e)}>
+      <div className="main" style={{marginTop: '0', paddingTop: '0'}}>
+        <div style={{color: '#333333', width: '100%', marginTop: '0'}} className="titleBar">
+          <h1 style={{padding: '10px 20px'}}>New York Times Search API</h1>
+          </div>
+        <div style={{paddingTop: '40px'}} className="mainDiv">
+          <form style={{lineHeight: '1.5'}}onSubmit={e => this.handleSubmit(e)}>
             <span>Enter a single search term (required) : </span>
             <input
               type="text"
